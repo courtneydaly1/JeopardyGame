@@ -26,6 +26,7 @@ let categories = [];
 
 // Gets a random set of category Ids from API and returns 6 Ids in an array.
 async function getCategoryIds() {
+  debugger;
   try {
     const response = await fetch("https://jservice.io/api/random?count=100");
 
@@ -34,7 +35,9 @@ async function getCategoryIds() {
     }
     const data = await response.json();
     const categoryIdsArr = data.map((item) => item.category_id);
-    return categoryIdsArr.slice(0, NUM_CATEGORIES); // Get the first 6 IDs
+    let allClues = data.clues;
+    let randomClues = _.sampleSize(allClues, NUM_CLUES_PER_CAT)
+    return randomClues // Get the first 6 IDs
   } catch (error) {
     console.error("Error:", error);
     return [];
@@ -43,6 +46,7 @@ async function getCategoryIds() {
 
 // Return object with data about a category:
 async function getCategory(catId) {
+  debugger;
   try {
     const response = await fetch(`${baseApiUrl}category?id=${catId}`);
 
@@ -52,7 +56,8 @@ async function getCategory(catId) {
 
     const data = await response.json();
     const allClues = data.clues;
-    const randomClues = _.sampleSize(allClues, NUM_CLUES_PER_CAT);
+    const shuffledClues = _.shuffle(allClues); // Shuffle the clues array
+    const randomClues = shuffledClues.slice(0, NUM_CLUES_PER_CAT); // Select the first 5 clues
     const clues = randomClues.map((cat) => ({
       question: cat.question,
       answer: cat.answer,
@@ -68,6 +73,7 @@ async function getCategory(catId) {
 
 // Fetch and store the category data with clues for all 6 categories
 async function fetchAllCategories() {
+  debugger;
   const categoryIds = await getCategoryIds();
   for (const catId of categoryIds) {
     const categoryData = await getCategory(catId);
@@ -92,14 +98,14 @@ fetchAllCategories()
  *   (initally, just show a "?" where the question/answer would go.)
  */
 
-async function fillTable(catInfo) {
+async function fillTable(categories) {
   debugger;
   //add titles to game
 
   $("#tableHeader").empty();
   let $tr = $("<tr>");
-  for (let categoryIdx = 0; categoryIdx < catInfo.length; categoryIdx++) {
-    const category = catInfo[categoryIdx];
+  for (let categoryIdx = 0; categoryIdx < categories.length; categoryIdx++) {
+    const category = categories[categoryIdx];
     $tr.append($("<td>").text(category.title));
   }
   $("#tableHeader").append($tr);
