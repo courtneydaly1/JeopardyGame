@@ -9,3 +9,26 @@
 body {
   background-color: primary;
 }
+#board {
+  width: 100%; 
+  table-layout: fixed; /* Fixed table layout to prevent cells from resizing */
+}
+
+.jeopardy-cell {
+  width: 100px; 
+  height: 100px; 
+  text-align: center;
+  border: 1px solid #000;
+  overflow: hidden;
+  text-overflow: ellipsis; /* Add an ellipsis (...) for long text */
+  font-size:small;
+}
+
+.question {
+  font-weight: bold;
+  background-color: primary;
+}
+
+.answer {
+  background-color: primary;
+}

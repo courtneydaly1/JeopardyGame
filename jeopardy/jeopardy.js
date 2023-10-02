@@ -101,7 +101,7 @@ async function fillTable() {
   let $tr = $("<tr>");
   debugger;
   for(category of categories){
-  $tr.append($("<td>").text(category.title));
+  $tr.append($("<td>").text(category.title.toUpperCase()));
   }
  
   $("#tableHeader").append($tr);
@@ -112,7 +112,7 @@ async function fillTable() {
   for (let clueIdx = 0; clueIdx < NUM_CLUES_PER_CAT; clueIdx++) {
     let $tr = $("<tr>");
     for (let categoryIdx = 0; categoryIdx < 6; categoryIdx++) {
-      let $td= $("<td>").append('<i class="fa-solid fa-circle-question"></i>').attr("id", `${categoryIdx}-${clueIdx}`)
+      let $td= $("<td>").append('<i class="fa-solid fa-circle-question"></i>').attr("id", `${categoryIdx}-${clueIdx}`).attr("class", "jeopardy-cell")
       $tr.append($td);
        
         
