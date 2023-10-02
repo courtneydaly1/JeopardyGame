@@ -154,28 +154,25 @@ function handleClick(evt) {
  */
 
 function showLoadingView() {
-  let playingGame = false;
-  const board = document.querySelector("#board");
+  const loadingView = document.getElementById("loadingView");
+  const gameView = document.getElementById("gameView");
   const startBtn = document.querySelector("#startBtn");
-  const $newDiv = $("<div>");
+  loadingView.style.display = "block";
+  gameView.style.display = "none";
 
-    $newDiv.append('<i class="<fa-solid fa-spinner fa-spin-pulse fa-2xl"></i>');
-    board.append($newDiv);
+startBtn.on('click', ()=>{
+  hideLoadingView();
+  setupAndStart();
+})
 }
 
 /** Remove the loading spinner and update the button used to fetch data. */
 
 function hideLoadingView() {
-  const startBtn = document.querySelector("#startBtn");
-  const board = document.querySelector("#board");
-
-  if ((playingGame = true)) {
-    newDiv.remove();
-    setupAndStart();
-  } else {
-    playingGame = false;
-    showLoadingView();
-  }
+  const loadingView = document.getElementById("loadingView");
+  const gameView = document.getElementById("gameView");
+  loadingView.style.display = "none";
+  gameView.style.display = "block";
 }
 
 /** Start game:
@@ -186,9 +183,8 @@ function hideLoadingView() {
  * */
 
 async function setupAndStart() {
-  showLoadingView();
+  hideLoadingView();
   let catInfo = await getCategoryIds();
-  let playingGame = true;
   const startBtn = document.querySelector("#startBtn");
   startBtn.innerText = "Restart!";
   fillTable(catInfo); //obj converted to list
