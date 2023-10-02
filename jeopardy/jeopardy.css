@@ -21,14 +21,10 @@ body {
   border: 1px solid #000;
   overflow: hidden;
   text-overflow: ellipsis; /* Add an ellipsis (...) for long text */
-  font-size:small;
-}
-
-.question {
+  font-size:x-small;
   font-weight: bold;
-  background-color: primary;
+  background-color: #060ce9 ;
 }
 
-.answer {
-  background-color: primary;
-}
+
+

@@ -18,7 +18,6 @@
 //    ...
 //  ]
 
-// ISSUE:This takes forever to get data from API and creates a violation***
 const baseApiUrl = "https://jservice.io/api/";
 const NUM_CATEGORIES = 6;
 const NUM_CLUES_PER_CAT = 5;
@@ -43,7 +42,6 @@ async function getCategoryIds() {
 
 // Return object with data about a category:
 async function getCategory(catId) {
-
   try {
     const response = await fetch(`${baseApiUrl}category?id=${catId}`);
 
@@ -94,16 +92,15 @@ fetchAllCategories()
  */
 
 async function fillTable() {
-  
   //add titles to game
 
   $("#tableHeader").empty();
   let $tr = $("<tr>");
-  debugger;
-  for(category of categories){
-  $tr.append($("<td>").text(category.title.toUpperCase()));
+
+  for (category of categories) {
+    $tr.append($("<td>").text(category.title.toUpperCase()));
   }
- 
+
   $("#tableHeader").append($tr);
 
   // add rows of questions to game
@@ -111,11 +108,14 @@ async function fillTable() {
   $("#board tbody").empty();
   for (let clueIdx = 0; clueIdx < NUM_CLUES_PER_CAT; clueIdx++) {
     let $tr = $("<tr>");
-    for (let categoryIdx = 0; categoryIdx < 6; categoryIdx++) {
-      let $td= $("<td>").append('<i class="fa-solid fa-circle-question"></i>').attr("id", `${categoryIdx}-${clueIdx}`).attr("class", "jeopardy-cell")
+    for (let categoryIdx = 0; categoryIdx <= NUM_CLUES_PER_CAT; categoryIdx++) {
+      let $td = $("<td>")
+        .append(
+          '<i class="fa-solid fa-circle-question fa-flip fa-2xl" style="color: #0d5be3;"></i>'
+        )
+        .attr("id", `${categoryIdx}-${clueIdx}`)
+        .attr("class", "jeopardy-cell");
       $tr.append($td);
-       
-        
     }
     $("#board tbody").append($tr);
   }
@@ -153,23 +153,15 @@ function handleClick(evt) {
  * and update the button used to fetch data.
  */
 
-// function showLoadingView() {
-//   let playingGame = false;
-//   const board = document.querySelector("#board");
-//   const startBtn = document.querySelector("#startBtn");
-//   const newDiv = $("<div>");
+function showLoadingView() {
+  let playingGame = false;
+  const board = document.querySelector("#board");
+  const startBtn = document.querySelector("#startBtn");
+  const $newDiv = $("<div>");
 
-//   if ((playingGame = false)) {
-//     startBtn.innerText = "Restart";
-//     newDiv.addAttribute(
-//       "class",
-//       `<i class="<fa-solid fa-spinner fa-spin-pulse fa-2xl"></i>`
-//     );
-//     board.append("newDiv");
-//   } else {
-//     if(startBtn.addEventListener("click", hideLoadingView));
-//   };
-
+    $newDiv.append('<i class="<fa-solid fa-spinner fa-spin-pulse fa-2xl"></i>');
+    board.append($newDiv);
+}
 
 /** Remove the loading spinner and update the button used to fetch data. */
 
@@ -180,6 +172,9 @@ function hideLoadingView() {
   if ((playingGame = true)) {
     newDiv.remove();
     setupAndStart();
+  } else {
+    playingGame = false;
+    showLoadingView();
   }
 }
 
@@ -191,13 +186,12 @@ function hideLoadingView() {
  * */
 
 async function setupAndStart() {
+  showLoadingView();
   let catInfo = await getCategoryIds();
   let playingGame = true;
-
-  // for (let catId = 0; catId < catIds.clues.length; catId++) {
-  // categories.push(catIds.clues[catId]);
-  // }
-  fillTable([catInfo]); //obj converted to list
+  const startBtn = document.querySelector("#startBtn");
+  startBtn.innerText = "Restart!";
+  fillTable(catInfo); //obj converted to list
 }
 
 /** On click of start / restart button, set up game. */
