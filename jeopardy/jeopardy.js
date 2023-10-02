@@ -98,7 +98,11 @@ async function fillTable() {
   let $tr = $("<tr>");
 
   for (category of categories) {
-    $tr.append($("<td>").text(category.title.toUpperCase()));
+    $tr.append(
+      $("<td>")
+        .text(category.title.toUpperCase())
+        .attr("class", "bg-info align-top")
+    );
   }
 
   $("#tableHeader").append($tr);
@@ -114,7 +118,7 @@ async function fillTable() {
           '<i class="fa-solid fa-circle-question fa-flip fa-2xl" style="color: #0d5be3;"></i>'
         )
         .attr("id", `${categoryIdx}-${clueIdx}`)
-        .attr("class", "jeopardy-cell");
+        .attr("class", "jeopardy-cell bg-info");
       $tr.append($td);
     }
     $("#board tbody").append($tr);
@@ -160,10 +164,10 @@ function showLoadingView() {
   loadingView.style.display = "block";
   gameView.style.display = "none";
 
-startBtn.on('click', ()=>{
-  hideLoadingView();
-  setupAndStart();
-})
+  startBtn.on("click", () => {
+    hideLoadingView();
+    setupAndStart();
+  });
 }
 
 /** Remove the loading spinner and update the button used to fetch data. */
@@ -190,8 +194,17 @@ async function setupAndStart() {
   fillTable(catInfo); //obj converted to list
 }
 
+// /** On click of start / restart button, set up game. */
+// $("#startBtn").on("click", setupAndStart);
 /** On click of start / restart button, set up game. */
-$("#startBtn").on("click", setupAndStart);
+$("#startBtn").on("click", () => {
+  if (startBtn.innerText === "Start!") {
+    setupAndStart();
+  } else {
+    location.reload();
+    setupAndStart();
+  }
+});
 
 /** On page load, add event handler for clicking clues */
 
