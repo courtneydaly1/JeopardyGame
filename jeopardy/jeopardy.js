@@ -43,6 +43,7 @@ async function getCategoryIds() {
 
 // Return object with data about a category:
 async function getCategory(catId) {
+
   try {
     const response = await fetch(`${baseApiUrl}category?id=${catId}`);
 
@@ -92,31 +93,29 @@ fetchAllCategories()
  *   (initally, just show a "?" where the question/answer would go.)
  */
 
-async function fillTable(catInfo) {
-  debugger;
+async function fillTable() {
+  
   //add titles to game
 
   $("#tableHeader").empty();
   let $tr = $("<tr>");
-  for (let categoryIdx = 0; categoryIdx < catInfo.length; categoryIdx++) {
-    const category = catInfo[categoryIdx];
-    $tr.append($("<td>").text(category.title));
+  debugger;
+  for(category of categories){
+  $tr.append($("<td>").text(category.title));
   }
+ 
   $("#tableHeader").append($tr);
 
   // add rows of questions to game
 
   $("#board tbody").empty();
-  for (let clueIdx = 0; clueIdx < NUM_CATEGORIES_PER_CAT; clueIdx++) {
+  for (let clueIdx = 0; clueIdx < NUM_CLUES_PER_CAT; clueIdx++) {
     let $tr = $("<tr>");
-    for (let categoryIdx = 0; categoryIdx < 5; categoryIdx++) {
-      $tr
-        .append("<td>")
-        .attr("id", `${categoryIdx}-${clueIdx}`)
-        .attr(
-          "class",
-          `<i class="fa-solid fa-circle-question" style="color: #1368e7;"></i>`
-        );
+    for (let categoryIdx = 0; categoryIdx < 6; categoryIdx++) {
+      let $td= $("<td>").append('<i class="fa-solid fa-circle-question"></i>').attr("id", `${categoryIdx}-${clueIdx}`)
+      $tr.append($td);
+       
+        
     }
     $("#board tbody").append($tr);
   }
@@ -131,9 +130,9 @@ async function fillTable(catInfo) {
  * */
 
 function handleClick(evt) {
-  let id = evt.target.id;
+  let id = evt.currentTarget.id;
   let [catId, clueId] = id.split("-");
-  let clue = categories[catId].clues[cluesId];
+  let clue = categories[catId].clues[clueId];
 
   let msg;
 
@@ -154,22 +153,23 @@ function handleClick(evt) {
  * and update the button used to fetch data.
  */
 
-function showLoadingView() {
-  let playingGame = false;
-  const board = document.querySelector("#board");
-  const startBtn = document.querySelector("#startBtn");
-  const newDiv = $("<div>");
+// function showLoadingView() {
+//   let playingGame = false;
+//   const board = document.querySelector("#board");
+//   const startBtn = document.querySelector("#startBtn");
+//   const newDiv = $("<div>");
 
-  if ((playingGame = false)) {
-    startBtn.innerText = "Restart";
-    newDiv.addAttribute(
-      "class",
-      `<i class="<fa-solid fa-spinner fa-spin-pulse fa-2xl"></i>`
-    );
-    board.append("newDiv");
-  } else {
-    if(startBtn.addEventListener("click", hideLoadingView))
-}
+//   if ((playingGame = false)) {
+//     startBtn.innerText = "Restart";
+//     newDiv.addAttribute(
+//       "class",
+//       `<i class="<fa-solid fa-spinner fa-spin-pulse fa-2xl"></i>`
+//     );
+//     board.append("newDiv");
+//   } else {
+//     if(startBtn.addEventListener("click", hideLoadingView));
+//   };
+
 
 /** Remove the loading spinner and update the button used to fetch data. */
 
