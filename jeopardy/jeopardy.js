@@ -144,8 +144,8 @@ function handleClick(evt) {
     msg = clue.question;
     clue.showing = "question";
   } else if (clue.showing === "question") {
-    msg = clue.answer;
-    clue.showing = "answer";
+    msg = clue.answer
+    clue.showing = "answer"
   } else {
     //ignore if already showing answer
     return;
@@ -201,8 +201,8 @@ $("#startBtn").on("click", () => {
   if (startBtn.innerText === "Start!") {
     setupAndStart();
   } else {
-    location.reload();
-    setupAndStart();
+    location.reload().then(setupAndStart());
+    
   }
 });
 
