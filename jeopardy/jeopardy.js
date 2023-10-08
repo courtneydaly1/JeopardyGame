@@ -77,7 +77,7 @@ async function fetchAllCategories() {
 // Call the function to fetch all categories
 fetchAllCategories()
   .then(() => {
-    console.log(categories); // This will contain the data for all 6 categories with their 5 clues each.
+    return(categories); // This will contain the data for all 6 categories with their 5 clues each.
   })
   .catch((error) => {
     console.error("Error:", error);
@@ -201,7 +201,9 @@ $("#startBtn").on("click", () => {
   if (startBtn.innerText === "Start!") {
     setupAndStart();
   } else {
-    location.reload().then(setupAndStart());
+    location.reload();
+    setupAndStart();
+    fillTable();
   }
 });
 
