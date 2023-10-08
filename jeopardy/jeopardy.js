@@ -194,8 +194,6 @@ async function setupAndStart() {
   fillTable(catInfo); //obj converted to list
 }
 
-// /** On click of start / restart button, set up game. */
-// $("#startBtn").on("click", setupAndStart);
 /** On click of start / restart button, set up game. */
 $("#startBtn").on("click", () => {
   if (startBtn.innerText === "Start!") {
