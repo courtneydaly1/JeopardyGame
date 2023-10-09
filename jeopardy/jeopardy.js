@@ -164,10 +164,9 @@ function showLoadingView() {
   loadingView.style.display = "block";
   gameView.style.display = "none";
 
-  startBtn.on("click", () => {
-    hideLoadingView();
-    setupAndStart();
-  });
+  // startBtn.on("click", () => {
+  //   setupAndStart();
+  // });
 }
 
 /** Remove the loading spinner and update the button used to fetch data. */
@@ -187,7 +186,7 @@ function hideLoadingView() {
  * */
 
 async function setupAndStart() {
-  hideLoadingView();
+  // hideLoadingView();
   let catInfo = await getCategoryIds();
   const startBtn = document.querySelector("#startBtn");
   startBtn.innerText = "Restart!";
@@ -197,17 +196,13 @@ async function setupAndStart() {
 
 /** On click of start / restart button, set up game. */
 $("#startBtn").on("click", () => {
-  if (startBtn.innerText === "Start!") {
-    setupAndStart();
-  } else {
-    location.reload().then(setupAndStart())
-  }
+  location.reload().then(setupAndStart())
 });
 
 /** On page load, add event handler for clicking clues */
 
 $(async function () {
   $("#board").on("click", "td", handleClick);
+  setupAndStart();
   hideLoadingView();
-  fillTable();
 });
